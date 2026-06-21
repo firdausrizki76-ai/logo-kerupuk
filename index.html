@@ -60,19 +60,27 @@
         .theme-gold { background: linear-gradient(135deg, #92400E, #D97706); }
         .theme-brown { background: linear-gradient(135deg, #451A03, #78350F); }
 
-        .brand-container { margin-top: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 5; position: absolute; width: 100%; top: 0; }
-        .brand-subtitle { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 6px; color: #FCD34D; text-transform: uppercase; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6); margin-right: -6px; text-align: center; }
-        
-        .brand { font-family: 'Playfair Display', serif; font-size: 58px; font-weight: 900; font-style: italic; line-height: 1; margin: 0; letter-spacing: 0px; transform: scaleY(1.05); transform-origin: center bottom; text-align: center; position: relative; -webkit-text-stroke: 12px #111827; color: #111827; text-shadow: 0px 15px 25px rgba(0,0,0,0.8); }
+        /* DRAGGABLE ELEMENTS */
+        .draggable { position: absolute; cursor: grab; z-index: 4; border-radius: 8px; box-sizing: border-box; }
+        .draggable:active { cursor: grabbing; }
+        .draggable.selected-drag { outline: 2px dashed #FCD34D; background: rgba(255, 255, 255, 0.1); z-index: 6; }
+        .is-dragging, .is-dragging * { user-select: none !important; cursor: grabbing !important; }
+
+        /* TEXT STYLES (now used inside draggables) */
+        .brand-subtitle { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 6px; color: #FCD34D; text-transform: uppercase; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6); text-align: center; display: block;}
+        .brand { font-family: 'Playfair Display', serif; font-size: 58px; font-weight: 900; font-style: italic; line-height: 1; margin: 0; letter-spacing: 0px; transform: scaleY(1.05); transform-origin: center bottom; text-align: center; position: relative; -webkit-text-stroke: 12px #111827; color: #111827; text-shadow: 0px 15px 25px rgba(0,0,0,0.8); display: block;}
         .brand::before { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; z-index: 2; -webkit-text-stroke: 5px #D4AF37; color: #D4AF37; text-shadow: none; pointer-events: none; }
         .brand::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; z-index: 3; -webkit-text-stroke: 0px; color: #FFFFFF; text-shadow: none; pointer-events: none; }
 
-        .product-name-container { z-index: 5; text-align: center; margin-top: 15px; padding: 0 20px; width: 100%; box-sizing: border-box; position: absolute; top: 310px; pointer-events: none; }
-        .product-name-container > * { pointer-events: auto; }
-        .product-name { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 25px; color: #FCD34D; text-transform: uppercase; text-shadow: 0 4px 8px rgba(0,0,0,0.6); letter-spacing: 2px; line-height: 1.2; margin: 0 0 10px 0; margin-right: -2px; text-align: center; }
+        .product-name { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 25px; color: #FCD34D; text-transform: uppercase; text-shadow: 0 4px 8px rgba(0,0,0,0.6); letter-spacing: 2px; line-height: 1.2; margin: 0 0 10px 0; text-align: center; display: block;}
         .subtitle-badge { background: rgba(17, 24, 39, 0.8); color: #FFF; font-size: 10px; font-weight: 800; padding: 4px 16px; border-radius: 20px; display: inline-block; border: 1px solid #D4AF37; box-shadow: 0 4px 6px rgba(0,0,0,0.4); text-transform: uppercase; letter-spacing: 2px; backdrop-filter: blur(4px); }
 
-        .bottom-panel { position: absolute; bottom: 0; left: 0; right: 0; height: 95px; background: #FFFFFF; padding: 15px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; border-top: 4px solid #D4AF37; z-index: 5; box-shadow: 0 -10px 20px rgba(0,0,0,0.2); }
+        .custom-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: #FFFFFF; text-shadow: 0 4px 8px rgba(0,0,0,0.8); text-align: center; min-width: 100px; display: inline-block; text-transform: uppercase; }
+
+        .kerupuk-svg { width: 155px; height: auto; transform: rotate(-5deg); pointer-events: none;}
+        .ingredient-emoji { font-family: 'Noto Color Emoji', sans-serif; font-size: 75px; filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.7)); transform: rotate(10deg); display: block; pointer-events: none;}
+
+        .bottom-panel { position: absolute; bottom: 0; left: 0; right: 0; height: 95px; background: #FFFFFF; padding: 15px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; border-top: 4px solid #D4AF37; z-index: 5; box-shadow: 0 -10px 20px rgba(0,0,0,0.2); pointer-events: auto;}
         .panel-middle { flex: 1; padding-right: 15px; border-right: 1px dashed #E5E7EB; font-family: 'Montserrat', sans-serif; font-size: 9px; color: #374151; font-weight: 600; line-height: 1.4; }
         .panel-middle span { color: #111827; font-weight: 900; display: block; font-size: 10px; text-transform: uppercase; margin-bottom: 2px; }
         .panel-right { width: 140px; padding-left: 15px; text-align: center; }
@@ -83,22 +91,13 @@
         .exp-table .yr { background-color: #F3F4F6; font-weight: 900; color: #111827; }
         .exp-table td[contenteditable="true"] { outline: none; }
         .exp-table td[contenteditable="true"]:hover { background: rgba(0,0,0,0.1); cursor: text; }
-
-        /* DRAGGABLE ELEMENTS */
-        .draggable { position: absolute; cursor: grab; user-select: none; z-index: 4; border-radius: 8px; padding: 5px; }
-        .draggable:active { cursor: grabbing; }
-        .draggable.selected-drag { outline: 2px dashed #FCD34D; background: rgba(255, 255, 255, 0.1); z-index: 6; }
-        .draggable * { pointer-events: none; } /* Supaya click event kena di draggable wrapper nya */
-        
-        .kerupuk-svg { width: 155px; height: auto; transform: rotate(-5deg); }
-        .ingredient-emoji { font-family: 'Noto Color Emoji', sans-serif; font-size: 75px; filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.7)); transform: rotate(10deg); display: block;}
     </style>
 </head>
 <body>
 
     <div class="sidebar">
         <h2>🛠️ Editor Stiker Pro</h2>
-        <p>1. <b>Klik teks</b> untuk mengedit.<br>2. <b>Klik & geser gambar</b> (kerupuk/emoji) untuk memindahkannya.<br>3. <b>Tekan tombol Delete</b> di keyboard untuk menghapus gambar terpilih.</p>
+        <p>1. <b>Klik & Tahan</b> teks/gambar untuk menggesernya.<br>2. <b>Klik (lalu lepas)</b> teks untuk mulai mengetik.<br>3. <b>Tekan tombol Delete</b> di keyboard untuk menghapus elemen terpilih.</p>
         <hr style="border-color: #374151; width: 100%;">
         
         <div id="editor-controls" style="display: none; flex-direction: column; gap: 20px;">
@@ -120,9 +119,10 @@
             
             <div class="tool-group">
                 <label>Tambahkan Elemen</label>
+                <button class="action-btn outline-btn" id="add-text-btn" style="margin-top:0;">📝 Tambah Teks Bebas</button>
                 <input type="file" id="image-upload" accept="image/png, image/jpeg" style="display:none;">
                 <button class="action-btn outline-btn" onclick="document.getElementById('image-upload').click()">🖼️ Upload Gambar Sendiri</button>
-                <button class="action-btn outline-btn" id="add-emoji-btn" style="margin-top:0;">😀 Tambah Emoji Baru</button>
+                <button class="action-btn outline-btn" id="add-emoji-btn">😀 Tambah Emoji Baru</button>
             </div>
             
             <hr style="border-color: #374151; width: 100%;">
@@ -133,7 +133,7 @@
         </div>
         
         <div id="no-selection-msg" style="color: #FCD34D; font-size: 13px; text-align: center; padding: 20px 0; border: 1px dashed #FCD34D; border-radius: 8px;">
-            Pilih (klik) salah satu stiker di sebelah kanan untuk mengubah tema warna dan gambar.
+            Pilih (klik) salah satu stiker di sebelah kanan untuk mengubah tema warna dan teks/gambar.
         </div>
 
         <div style="margin-top: auto;">
@@ -147,11 +147,20 @@
         <div class="sticker-container active" onclick="selectSticker(this, event)">
             <div class="sticker theme-blue">
                 <div class="bg-pattern"></div>
-                <div class="brand-container">
+                
+                <!-- Draggable Texts -->
+                <div class="draggable" style="top: 50px; left: 0px; width: 400px; text-align: center;">
                     <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
                     <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
                 </div>
-                <div class="draggable" style="top: 170px; left: 110px;">
+                
+                <div class="draggable" style="top: 310px; left: 0px; width: 400px; text-align: center;">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK PULI</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 70g | Gurih & Renyah</div>
+                </div>
+
+                <!-- Draggable Graphics -->
+                <div class="draggable" style="top: 170px; left: 110px; padding:0;">
                     <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
                         <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
@@ -162,13 +171,10 @@
                         <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <div class="draggable" style="top: 220px; left: 190px;">
+                <div class="draggable" style="top: 220px; left: 190px; padding:0;">
                     <span class="ingredient-emoji">🌾</span>
                 </div>
-                <div class="product-name-container">
-                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK PULI</div>
-                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 70g | Gurih & Renyah</div>
-                </div>
+                
                 <div class="bottom-panel">
                     <div class="panel-middle">
                         <span spellcheck="false" contenteditable="true">Komposisi</span>
@@ -195,11 +201,15 @@
         <div class="sticker-container" onclick="selectSticker(this, event)">
             <div class="sticker theme-orange">
                 <div class="bg-pattern"></div>
-                <div class="brand-container">
+                <div class="draggable" style="top: 50px; left: 0px; width: 400px; text-align: center;">
                     <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
                     <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
                 </div>
-                <div class="draggable" style="top: 170px; left: 110px;">
+                <div class="draggable" style="top: 310px; left: 0px; width: 400px; text-align: center;">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK MELINJO</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 80g | Rasa Autentik</div>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px; padding:0;">
                     <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
                         <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
@@ -210,12 +220,8 @@
                         <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <div class="draggable" style="top: 220px; left: 190px;">
+                <div class="draggable" style="top: 220px; left: 190px; padding:0;">
                     <span class="ingredient-emoji">🌰</span>
-                </div>
-                <div class="product-name-container">
-                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK MELINJO</div>
-                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 80g | Rasa Autentik</div>
                 </div>
                 <div class="bottom-panel">
                     <div class="panel-middle">
@@ -243,11 +249,15 @@
         <div class="sticker-container" onclick="selectSticker(this, event)">
             <div class="sticker theme-red">
                 <div class="bg-pattern"></div>
-                <div class="brand-container">
+                <div class="draggable" style="top: 50px; left: 0px; width: 400px; text-align: center;">
                     <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
                     <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
                 </div>
-                <div class="draggable" style="top: 170px; left: 110px;">
+                <div class="draggable" style="top: 310px; left: 0px; width: 400px; text-align: center;">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK PULI BAWANG</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Ekstra Bawang</div>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px; padding:0;">
                     <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
                         <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
@@ -258,12 +268,8 @@
                         <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <div class="draggable" style="top: 220px; left: 190px;">
+                <div class="draggable" style="top: 220px; left: 190px; padding:0;">
                     <span class="ingredient-emoji">🧄</span>
-                </div>
-                <div class="product-name-container">
-                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK PULI BAWANG</div>
-                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Ekstra Bawang</div>
                 </div>
                 <div class="bottom-panel">
                     <div class="panel-middle">
@@ -291,11 +297,15 @@
         <div class="sticker-container" onclick="selectSticker(this, event)">
             <div class="sticker theme-green">
                 <div class="bg-pattern"></div>
-                <div class="brand-container">
+                <div class="draggable" style="top: 50px; left: 0px; width: 400px; text-align: center;">
                     <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
                     <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
                 </div>
-                <div class="draggable" style="top: 170px; left: 110px;">
+                <div class="draggable" style="top: 310px; left: 0px; width: 400px; text-align: center;">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK STIK IKAN</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Terasa Ikannya!</div>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px; padding:0;">
                     <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
                         <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
@@ -306,12 +316,8 @@
                         <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <div class="draggable" style="top: 220px; left: 190px;">
+                <div class="draggable" style="top: 220px; left: 190px; padding:0;">
                     <span class="ingredient-emoji">🐟</span>
-                </div>
-                <div class="product-name-container">
-                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK STIK IKAN</div>
-                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Terasa Ikannya!</div>
                 </div>
                 <div class="bottom-panel">
                     <div class="panel-middle">
@@ -339,11 +345,15 @@
         <div class="sticker-container" onclick="selectSticker(this, event)">
             <div class="sticker theme-purple">
                 <div class="bg-pattern"></div>
-                <div class="brand-container">
+                <div class="draggable" style="top: 50px; left: 0px; width: 400px; text-align: center;">
                     <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
                     <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
                 </div>
-                <div class="draggable" style="top: 170px; left: 110px;">
+                <div class="draggable" style="top: 310px; left: 0px; width: 400px; text-align: center;">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK BANGKA</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Khas Bangka</div>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px; padding:0;">
                     <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
                         <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
@@ -354,12 +364,8 @@
                         <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <div class="draggable" style="top: 220px; left: 190px;">
+                <div class="draggable" style="top: 220px; left: 190px; padding:0;">
                     <span class="ingredient-emoji">🐡</span>
-                </div>
-                <div class="product-name-container">
-                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK BANGKA</div>
-                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Khas Bangka</div>
                 </div>
                 <div class="bottom-panel">
                     <div class="panel-middle">
@@ -390,21 +396,16 @@
         let activeStickerContainer = null;
 
         function selectSticker(element, event) {
-            // Jika yang diklik adalah tombol/icon hapus/drag, abaikan pemilihan stiker global.
+            // Abaikan jika mengklik bagian panel komposisi bawah (supaya tidak ter-drag) atau mengklik draggable yang sudah ada event listener-nya
             if(event && event.target.closest('.draggable')) return;
             
-            // Remove active class from all
             document.querySelectorAll('.sticker-container').forEach(el => el.classList.remove('active'));
-            
-            // Set active class
             element.classList.add('active');
             activeStickerContainer = element;
             
-            // Show controls
             document.getElementById('no-selection-msg').style.display = 'none';
             document.getElementById('editor-controls').style.display = 'flex';
             
-            // Sync current theme to buttons
             const sticker = element.querySelector('.sticker');
             const currentTheme = Array.from(sticker.classList).find(c => c.startsWith('theme-'));
             document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('selected'));
@@ -413,46 +414,50 @@
                 if(btn) btn.classList.add('selected');
             }
             
-            // Hilangkan outline draggables saat ganti stiker
             document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
         }
 
-        // Initialize selection
         selectSticker(document.querySelector('.sticker-container'), null);
 
-        // Theme switching
         document.querySelectorAll('.theme-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 if(!activeStickerContainer) return;
-                
-                // Update buttons
                 document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('selected'));
                 btn.classList.add('selected');
-                
-                // Update sticker
                 const sticker = activeStickerContainer.querySelector('.sticker');
                 const newTheme = btn.getAttribute('data-theme');
-                
-                // Remove old themes
                 sticker.classList.forEach(c => {
                     if(c.startsWith('theme-')) sticker.classList.remove(c);
                 });
-                
-                // Add new theme
                 sticker.classList.add(newTheme);
             });
+        });
+
+        // Add Free Text
+        document.getElementById('add-text-btn').addEventListener('click', () => {
+            if(!activeStickerContainer) return;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'draggable selected-drag';
+            wrapper.style.top = '100px';
+            wrapper.style.left = '50px';
+            wrapper.style.width = '300px';
+            wrapper.style.textAlign = 'center';
+            wrapper.innerHTML = `<span class="custom-text" spellcheck="false" contenteditable="true">TEKS BARU</span>`;
+            
+            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
+            activeStickerContainer.querySelector('.sticker').appendChild(wrapper);
         });
 
         // Add Emoji
         document.getElementById('add-emoji-btn').addEventListener('click', () => {
             if(!activeStickerContainer) return;
-            let userEmoji = prompt("Masukkan emoji atau teks:", "🌶️");
+            let userEmoji = prompt("Masukkan emoji:", "🌶️");
             if(!userEmoji) return;
-            
             const wrapper = document.createElement('div');
             wrapper.className = 'draggable selected-drag';
             wrapper.style.top = '220px';
             wrapper.style.left = '150px';
+            wrapper.style.padding = '0';
             wrapper.innerHTML = `<span class="ingredient-emoji">${userEmoji}</span>`;
             
             document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
@@ -470,7 +475,7 @@
                     img.src = event.target.result;
                     img.style.maxWidth = '150px';
                     img.style.maxHeight = '150px';
-                    // Kita matikan pointer events di img agar klik selalu kena wrapper
+                    img.style.pointerEvents = 'none'; // biar event klik tetap ke wrapper
                     
                     const wrapper = document.createElement('div');
                     wrapper.className = 'draggable selected-drag';
@@ -483,11 +488,12 @@
                 };
                 reader.readAsDataURL(file);
             }
-            e.target.value = ""; // Reset input
+            e.target.value = ""; 
         });
 
         // DRAG AND DROP LOGIC
         let isDragging = false;
+        let hasDragged = false;
         let currentDraggable = null;
         let startOffsetX = 0;
         let startOffsetY = 0;
@@ -495,16 +501,27 @@
         document.addEventListener('mousedown', (e) => {
             const dragEl = e.target.closest('.draggable');
             if (dragEl) {
+                const isEditable = e.target.closest('[contenteditable="true"]');
+                
+                // Jika user mengklik text yang sudah dalam keadaan focus (sedang mengetik), biarkan event berjalan normal (bisa blok teks).
+                if (isEditable && document.activeElement === isEditable) {
+                    return; 
+                }
+
+                // Jika elemen editable tapi belum focus, kita MENCEGAH focus awal agar bisa didrag.
+                if (isEditable) {
+                    e.preventDefault(); 
+                }
+
                 isDragging = true;
+                hasDragged = false;
                 currentDraggable = dragEl;
                 
-                // Pastikan stikernya menjadi aktif
                 const stickerContainer = currentDraggable.closest('.sticker-container');
-                if (stickerContainer !== activeStickerContainer) {
+                if (stickerContainer && stickerContainer !== activeStickerContainer) {
                     selectSticker(stickerContainer, e);
                 }
 
-                // Select this draggable
                 document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
                 currentDraggable.classList.add('selected-drag');
                 
@@ -513,17 +530,21 @@
                 startOffsetY = e.clientY - rect.top;
                 
             } else if (!e.target.closest('.action-btn') && !e.target.closest('.sidebar')) {
-                // Deselect if clicking empty space
                 document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
+                if(document.activeElement.getAttribute('contenteditable') === 'true') {
+                    document.activeElement.blur();
+                }
             }
         });
 
         document.addEventListener('mousemove', (e) => {
             if (isDragging && currentDraggable) {
+                hasDragged = true;
+                document.body.classList.add('is-dragging');
+                
                 const sticker = currentDraggable.closest('.sticker');
                 const stickerRect = sticker.getBoundingClientRect();
                 
-                // Hitung posisi kursor relatif terhadap ujung kiri atas sticker
                 let newLeft = e.clientX - stickerRect.left - startOffsetX;
                 let newTop = e.clientY - stickerRect.top - startOffsetY;
                 
@@ -532,16 +553,29 @@
             }
         });
 
-        document.addEventListener('mouseup', () => {
+        document.addEventListener('mouseup', (e) => {
+            if (isDragging) {
+                // Jika elemen hanya diklik dan TIDAK digeser, berikan focus ketik
+                if (!hasDragged) {
+                    const isEditable = e.target.closest('[contenteditable="true"]');
+                    if (isEditable) {
+                        isEditable.focus();
+                    }
+                }
+            }
+            
             isDragging = false;
             currentDraggable = null;
+            document.body.classList.remove('is-dragging');
+            // Reset hasDragged di event cycle selanjutnya agar tidak bentrok dengan onclick lain
+            setTimeout(() => { hasDragged = false; }, 0);
         });
 
-        // HAPUS ELEMEN DENGAN KEYBOARD
+        // HAPUS ELEMEN
         document.addEventListener('keydown', (e) => {
-            // Hanya hapus jika menekan Delete atau Backspace, dan bukan sedang mengedit teks biasa
             if (e.key === 'Delete' || e.key === 'Backspace') {
                 const isEditingText = document.activeElement.tagName === 'INPUT' || document.activeElement.getAttribute('contenteditable') === 'true';
+                // Jangan hapus elemen kalau user lagi ngetik karakter atau mau hapus huruf
                 if (!isEditingText) {
                     const selectedDrag = document.querySelector('.draggable.selected-drag');
                     if (selectedDrag) {
@@ -551,7 +585,6 @@
             }
         });
 
-        // Duplicate Sticker
         document.getElementById('duplicate-btn').addEventListener('click', () => {
             if(!activeStickerContainer) return;
             const clone = activeStickerContainer.cloneNode(true);
@@ -559,7 +592,6 @@
             selectSticker(clone, null);
         });
 
-        // Delete Sticker
         document.getElementById('delete-btn').addEventListener('click', () => {
             if(!activeStickerContainer) return;
             const canvasArea = document.getElementById('canvas-area');
@@ -573,22 +605,29 @@
             document.getElementById('editor-controls').style.display = 'none';
         });
 
-        // Add New Blank Sticker
         document.getElementById('add-new-btn').addEventListener('click', () => {
             const canvasArea = document.getElementById('canvas-area');
             const template = canvasArea.children[0].cloneNode(true);
-            
-            // Reset text
-            template.querySelector('.product-name').innerText = "NAMA PRODUK";
-            
-            // Remove existing drag elements to start fresh
             template.querySelectorAll('.draggable').forEach(el => el.remove());
             
+            // Re-add product text structure since we removed all draggables
+            const nameContainer = document.createElement('div');
+            nameContainer.className = 'draggable';
+            nameContainer.style.top = '310px';
+            nameContainer.style.left = '0px';
+            nameContainer.style.width = '400px';
+            nameContainer.style.textAlign = 'center';
+            nameContainer.innerHTML = `
+                <div class="product-name" spellcheck="false" contenteditable="true">NAMA PRODUK</div>
+                <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: - </div>
+            `;
+            
+            template.querySelector('.sticker').appendChild(nameContainer);
             canvasArea.appendChild(template);
             selectSticker(template, null);
         });
 
-        // Download PNG using html2canvas
+        // DOWNLOAD
         document.getElementById('download-btn').addEventListener('click', () => {
             if(!activeStickerContainer) return;
             
@@ -597,10 +636,14 @@
             btn.innerText = "⏳ Sedang Memproses...";
             btn.disabled = true;
             
-            // Hide selection outlines before screenshot
             activeStickerContainer.classList.remove('active');
             document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
             
+            // Hindari outline saat didownload
+            if(document.activeElement && document.activeElement.blur) {
+                document.activeElement.blur();
+            }
+
             const stickerElement = activeStickerContainer.querySelector('.sticker');
             
             html2canvas(stickerElement, {
@@ -608,14 +651,14 @@
                 backgroundColor: null,
                 useCORS: true
             }).then(canvas => {
-                // Restore outline
                 activeStickerContainer.classList.add('active');
                 btn.innerText = originalText;
                 btn.disabled = false;
                 
-                // Trigger download
                 const link = document.createElement('a');
-                const productName = stickerElement.querySelector('.product-name').innerText.trim().replace(/[^a-zA-Z0-9]/g, '_');
+                let productName = "Stiker";
+                const productNameEl = stickerElement.querySelector('.product-name');
+                if(productNameEl) productName = productNameEl.innerText.trim().replace(/[^a-zA-Z0-9]/g, '_');
                 link.download = `Stiker_${productName}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
