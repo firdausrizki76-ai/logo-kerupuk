@@ -48,11 +48,17 @@
         .sticker::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 110%); pointer-events: none; z-index: 1; }
         .bg-pattern { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(45deg, rgba(255,255,255,0.04) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.04) 75%, transparent 75%, transparent); background-size: 16px 16px; z-index: 0; }
 
+        /* THEMES */
         .theme-blue { background: linear-gradient(135deg, #1E3A8A, #3B82F6); }
         .theme-orange { background: linear-gradient(135deg, #9A3412, #EA580C); }
         .theme-red { background: linear-gradient(135deg, #7F1D1D, #DC2626); }
         .theme-green { background: linear-gradient(135deg, #064E3B, #059669); }
         .theme-purple { background: linear-gradient(135deg, #4C1D95, #7C3AED); }
+        .theme-pink { background: linear-gradient(135deg, #BE185D, #F43F5E); }
+        .theme-teal { background: linear-gradient(135deg, #0F766E, #14B8A6); }
+        .theme-gray { background: linear-gradient(135deg, #374151, #6B7280); }
+        .theme-gold { background: linear-gradient(135deg, #92400E, #D97706); }
+        .theme-brown { background: linear-gradient(135deg, #451A03, #78350F); }
 
         .brand-container { margin-top: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 5; position: absolute; width: 100%; top: 0; }
         .brand-subtitle { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 6px; color: #FCD34D; text-transform: uppercase; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6); margin-right: -6px; text-align: center; }
@@ -61,7 +67,8 @@
         .brand::before { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; z-index: 2; -webkit-text-stroke: 5px #D4AF37; color: #D4AF37; text-shadow: none; pointer-events: none; }
         .brand::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; z-index: 3; -webkit-text-stroke: 0px; color: #FFFFFF; text-shadow: none; pointer-events: none; }
 
-        .product-name-container { z-index: 5; text-align: center; margin-top: 15px; padding: 0 20px; width: 100%; box-sizing: border-box; position: absolute; top: 310px; }
+        .product-name-container { z-index: 5; text-align: center; margin-top: 15px; padding: 0 20px; width: 100%; box-sizing: border-box; position: absolute; top: 310px; pointer-events: none; }
+        .product-name-container > * { pointer-events: auto; }
         .product-name { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 25px; color: #FCD34D; text-transform: uppercase; text-shadow: 0 4px 8px rgba(0,0,0,0.6); letter-spacing: 2px; line-height: 1.2; margin: 0 0 10px 0; margin-right: -2px; text-align: center; }
         .subtitle-badge { background: rgba(17, 24, 39, 0.8); color: #FFF; font-size: 10px; font-weight: 800; padding: 4px 16px; border-radius: 20px; display: inline-block; border: 1px solid #D4AF37; box-shadow: 0 4px 6px rgba(0,0,0,0.4); text-transform: uppercase; letter-spacing: 2px; backdrop-filter: blur(4px); }
 
@@ -103,6 +110,11 @@
                     <div class="theme-btn theme-red" data-theme="theme-red"></div>
                     <div class="theme-btn theme-green" data-theme="theme-green"></div>
                     <div class="theme-btn theme-purple" data-theme="theme-purple"></div>
+                    <div class="theme-btn theme-pink" data-theme="theme-pink"></div>
+                    <div class="theme-btn theme-teal" data-theme="theme-teal"></div>
+                    <div class="theme-btn theme-gray" data-theme="theme-gray"></div>
+                    <div class="theme-btn theme-gold" data-theme="theme-gold"></div>
+                    <div class="theme-btn theme-brown" data-theme="theme-brown"></div>
                 </div>
             </div>
             
@@ -130,17 +142,15 @@
     </div>
 
     <div class="canvas-area" id="canvas-area">
-        <!-- Default Sticker Template -->
+        
+        <!-- STICKER 1: KERUPUK PULI -->
         <div class="sticker-container active" onclick="selectSticker(this, event)">
             <div class="sticker theme-blue">
                 <div class="bg-pattern"></div>
-                
                 <div class="brand-container">
                     <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
                     <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
                 </div>
-                
-                <!-- Draggable Graphics -->
                 <div class="draggable" style="top: 170px; left: 110px;">
                     <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
@@ -152,16 +162,13 @@
                         <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                
                 <div class="draggable" style="top: 220px; left: 190px;">
                     <span class="ingredient-emoji">🌾</span>
                 </div>
-                
                 <div class="product-name-container">
                     <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK PULI</div>
                     <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 70g | Gurih & Renyah</div>
                 </div>
-
                 <div class="bottom-panel">
                     <div class="panel-middle">
                         <span spellcheck="false" contenteditable="true">Komposisi</span>
@@ -183,6 +190,199 @@
                 </div>
             </div>
         </div>
+
+        <!-- STICKER 2: KERUPUK MELINJO -->
+        <div class="sticker-container" onclick="selectSticker(this, event)">
+            <div class="sticker theme-orange">
+                <div class="bg-pattern"></div>
+                <div class="brand-container">
+                    <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
+                    <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px;">
+                    <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 45 35 Q 65 15 85 35 Q 100 60 80 80 Q 55 95 35 75 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 20 60 Q 30 40 50 50 Q 70 60 60 80 Q 50 100 30 90 Q 10 80 20 60 Z" fill="#FFFBEB" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 80 50 Q 90 30 120 40 Q 140 50 130 80 Q 110 100 90 90 Q 70 80 80 50 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 50 50 Q 65 30 90 40 Q 110 50 100 80 Q 80 100 60 90 Q 40 80 50 50 Z" fill="#FFFFFF" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="draggable" style="top: 220px; left: 190px;">
+                    <span class="ingredient-emoji">🌰</span>
+                </div>
+                <div class="product-name-container">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK MELINJO</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 80g | Rasa Autentik</div>
+                </div>
+                <div class="bottom-panel">
+                    <div class="panel-middle">
+                        <span spellcheck="false" contenteditable="true">Komposisi</span>
+                        <div spellcheck="false" contenteditable="true">Tepung Tapioka, Melinjo, Air, Telur.</div>
+                    </div>
+                    <div class="panel-right">
+                        <span spellcheck="false" contenteditable="true">Baik Digunakan Sebelum</span>
+                        <table class="exp-table">
+                            <tr>
+                                <td contenteditable="true">1</td><td contenteditable="true">2</td><td contenteditable="true">3</td><td contenteditable="true">4</td><td contenteditable="true">5</td><td contenteditable="true">6</td>
+                                <td class="yr" contenteditable="true">25</td><td class="yr" contenteditable="true">26</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">7</td><td contenteditable="true">8</td><td contenteditable="true">9</td><td contenteditable="true">10</td><td contenteditable="true">11</td><td contenteditable="true">12</td>
+                                <td class="yr" contenteditable="true">27</td><td class="yr" contenteditable="true">28</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STICKER 3: KERUPUK PULI BAWANG -->
+        <div class="sticker-container" onclick="selectSticker(this, event)">
+            <div class="sticker theme-red">
+                <div class="bg-pattern"></div>
+                <div class="brand-container">
+                    <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
+                    <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px;">
+                    <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 45 35 Q 65 15 85 35 Q 100 60 80 80 Q 55 95 35 75 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 20 60 Q 30 40 50 50 Q 70 60 60 80 Q 50 100 30 90 Q 10 80 20 60 Z" fill="#FFFBEB" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 80 50 Q 90 30 120 40 Q 140 50 130 80 Q 110 100 90 90 Q 70 80 80 50 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 50 50 Q 65 30 90 40 Q 110 50 100 80 Q 80 100 60 90 Q 40 80 50 50 Z" fill="#FFFFFF" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="draggable" style="top: 220px; left: 190px;">
+                    <span class="ingredient-emoji">🧄</span>
+                </div>
+                <div class="product-name-container">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK PULI BAWANG</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Ekstra Bawang</div>
+                </div>
+                <div class="bottom-panel">
+                    <div class="panel-middle">
+                        <span spellcheck="false" contenteditable="true">Komposisi</span>
+                        <div spellcheck="false" contenteditable="true">Tepung Tapioka, Garam, Penyedap, Bawang.</div>
+                    </div>
+                    <div class="panel-right">
+                        <span spellcheck="false" contenteditable="true">Baik Digunakan Sebelum</span>
+                        <table class="exp-table">
+                            <tr>
+                                <td contenteditable="true">1</td><td contenteditable="true">2</td><td contenteditable="true">3</td><td contenteditable="true">4</td><td contenteditable="true">5</td><td contenteditable="true">6</td>
+                                <td class="yr" contenteditable="true">25</td><td class="yr" contenteditable="true">26</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">7</td><td contenteditable="true">8</td><td contenteditable="true">9</td><td contenteditable="true">10</td><td contenteditable="true">11</td><td contenteditable="true">12</td>
+                                <td class="yr" contenteditable="true">27</td><td class="yr" contenteditable="true">28</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STICKER 4: KERUPUK STIK IKAN -->
+        <div class="sticker-container" onclick="selectSticker(this, event)">
+            <div class="sticker theme-green">
+                <div class="bg-pattern"></div>
+                <div class="brand-container">
+                    <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
+                    <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px;">
+                    <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 45 35 Q 65 15 85 35 Q 100 60 80 80 Q 55 95 35 75 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 20 60 Q 30 40 50 50 Q 70 60 60 80 Q 50 100 30 90 Q 10 80 20 60 Z" fill="#FFFBEB" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 80 50 Q 90 30 120 40 Q 140 50 130 80 Q 110 100 90 90 Q 70 80 80 50 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 50 50 Q 65 30 90 40 Q 110 50 100 80 Q 80 100 60 90 Q 40 80 50 50 Z" fill="#FFFFFF" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="draggable" style="top: 220px; left: 190px;">
+                    <span class="ingredient-emoji">🐟</span>
+                </div>
+                <div class="product-name-container">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK STIK IKAN</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Terasa Ikannya!</div>
+                </div>
+                <div class="bottom-panel">
+                    <div class="panel-middle">
+                        <span spellcheck="false" contenteditable="true">Komposisi</span>
+                        <div spellcheck="false" contenteditable="true">Tepung Tapioka, Penyedap, Telur, Ikan.</div>
+                    </div>
+                    <div class="panel-right">
+                        <span spellcheck="false" contenteditable="true">Baik Digunakan Sebelum</span>
+                        <table class="exp-table">
+                            <tr>
+                                <td contenteditable="true">1</td><td contenteditable="true">2</td><td contenteditable="true">3</td><td contenteditable="true">4</td><td contenteditable="true">5</td><td contenteditable="true">6</td>
+                                <td class="yr" contenteditable="true">25</td><td class="yr" contenteditable="true">26</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">7</td><td contenteditable="true">8</td><td contenteditable="true">9</td><td contenteditable="true">10</td><td contenteditable="true">11</td><td contenteditable="true">12</td>
+                                <td class="yr" contenteditable="true">27</td><td class="yr" contenteditable="true">28</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STICKER 5: KERUPUK BANGKA -->
+        <div class="sticker-container" onclick="selectSticker(this, event)">
+            <div class="sticker theme-purple">
+                <div class="bg-pattern"></div>
+                <div class="brand-container">
+                    <div class="brand-subtitle" spellcheck="false" contenteditable="true">Premium Quality</div>
+                    <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
+                </div>
+                <div class="draggable" style="top: 170px; left: 110px;">
+                    <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 45 35 Q 65 15 85 35 Q 100 60 80 80 Q 55 95 35 75 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 20 60 Q 30 40 50 50 Q 70 60 60 80 Q 50 100 30 90 Q 10 80 20 60 Z" fill="#FFFBEB" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 80 50 Q 90 30 120 40 Q 140 50 130 80 Q 110 100 90 90 Q 70 80 80 50 Z" fill="#FEF3C7" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 50 50 Q 65 30 90 40 Q 110 50 100 80 Q 80 100 60 90 Q 40 80 50 50 Z" fill="#FFFFFF" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="draggable" style="top: 220px; left: 190px;">
+                    <span class="ingredient-emoji">🐡</span>
+                </div>
+                <div class="product-name-container">
+                    <div class="product-name" spellcheck="false" contenteditable="true">KERUPUK BANGKA</div>
+                    <div class="subtitle-badge" spellcheck="false" contenteditable="true">Netto: 65g | Khas Bangka</div>
+                </div>
+                <div class="bottom-panel">
+                    <div class="panel-middle">
+                        <span spellcheck="false" contenteditable="true">Komposisi</span>
+                        <div spellcheck="false" contenteditable="true">Tepung Tapioka, Penyedap, Ikan, Bawang.</div>
+                    </div>
+                    <div class="panel-right">
+                        <span spellcheck="false" contenteditable="true">Baik Digunakan Sebelum</span>
+                        <table class="exp-table">
+                            <tr>
+                                <td contenteditable="true">1</td><td contenteditable="true">2</td><td contenteditable="true">3</td><td contenteditable="true">4</td><td contenteditable="true">5</td><td contenteditable="true">6</td>
+                                <td class="yr" contenteditable="true">25</td><td class="yr" contenteditable="true">26</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">7</td><td contenteditable="true">8</td><td contenteditable="true">9</td><td contenteditable="true">10</td><td contenteditable="true">11</td><td contenteditable="true">12</td>
+                                <td class="yr" contenteditable="true">27</td><td class="yr" contenteditable="true">28</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
