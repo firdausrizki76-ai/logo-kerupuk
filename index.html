@@ -37,8 +37,6 @@
         /* STICKER STYLES */
         .sticker-container { display: flex; flex-direction: column; align-items: center; gap: 15px; cursor: pointer; }
         .sticker { width: 400px; height: 500px; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; border: 1px solid rgba(255,255,255,0.2); box-sizing: border-box; transition: transform 0.2s; }
-        
-        /* Highlight active sticker */
         .sticker-container.active .sticker { transform: scale(1.02); box-shadow: 0 0 0 4px #3B82F6, 0 25px 50px rgba(0,0,0,0.8); }
         
         /* Editable highlight */
@@ -56,18 +54,14 @@
         .theme-green { background: linear-gradient(135deg, #064E3B, #059669); }
         .theme-purple { background: linear-gradient(135deg, #4C1D95, #7C3AED); }
 
-        .brand-container { margin-top: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 5; position: relative; width: 100%; }
+        .brand-container { margin-top: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 5; position: absolute; width: 100%; top: 0; }
         .brand-subtitle { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 6px; color: #FCD34D; text-transform: uppercase; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6); margin-right: -6px; text-align: center; }
         
         .brand { font-family: 'Playfair Display', serif; font-size: 58px; font-weight: 900; font-style: italic; line-height: 1; margin: 0; letter-spacing: 0px; transform: scaleY(1.05); transform-origin: center bottom; text-align: center; position: relative; -webkit-text-stroke: 12px #111827; color: #111827; text-shadow: 0px 15px 25px rgba(0,0,0,0.8); }
         .brand::before { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; z-index: 2; -webkit-text-stroke: 5px #D4AF37; color: #D4AF37; text-shadow: none; pointer-events: none; }
         .brand::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; z-index: 3; -webkit-text-stroke: 0px; color: #FFFFFF; text-shadow: none; pointer-events: none; }
 
-        .illustration-combo { display: flex; align-items: center; justify-content: center; margin: 15px 0 0px 0; z-index: 4; position: relative; }
-        .kerupuk-svg { width: 155px; height: auto; transform: rotate(-5deg); z-index: 3; }
-        .ingredient-emoji { font-family: 'Noto Color Emoji', sans-serif; font-size: 75px; filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.7)); transform: rotate(10deg); margin-left: -55px; margin-top: 35px; position: relative; z-index: 5; }
-
-        .product-name-container { z-index: 5; text-align: center; margin-top: 15px; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        .product-name-container { z-index: 5; text-align: center; margin-top: 15px; padding: 0 20px; width: 100%; box-sizing: border-box; position: absolute; top: 310px; }
         .product-name { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 25px; color: #FCD34D; text-transform: uppercase; text-shadow: 0 4px 8px rgba(0,0,0,0.6); letter-spacing: 2px; line-height: 1.2; margin: 0 0 10px 0; margin-right: -2px; text-align: center; }
         .subtitle-badge { background: rgba(17, 24, 39, 0.8); color: #FFF; font-size: 10px; font-weight: 800; padding: 4px 16px; border-radius: 20px; display: inline-block; border: 1px solid #D4AF37; box-shadow: 0 4px 6px rgba(0,0,0,0.4); text-transform: uppercase; letter-spacing: 2px; backdrop-filter: blur(4px); }
 
@@ -82,13 +76,22 @@
         .exp-table .yr { background-color: #F3F4F6; font-weight: 900; color: #111827; }
         .exp-table td[contenteditable="true"] { outline: none; }
         .exp-table td[contenteditable="true"]:hover { background: rgba(0,0,0,0.1); cursor: text; }
+
+        /* DRAGGABLE ELEMENTS */
+        .draggable { position: absolute; cursor: grab; user-select: none; z-index: 4; border-radius: 8px; padding: 5px; }
+        .draggable:active { cursor: grabbing; }
+        .draggable.selected-drag { outline: 2px dashed #FCD34D; background: rgba(255, 255, 255, 0.1); z-index: 6; }
+        .draggable * { pointer-events: none; } /* Supaya click event kena di draggable wrapper nya */
+        
+        .kerupuk-svg { width: 155px; height: auto; transform: rotate(-5deg); }
+        .ingredient-emoji { font-family: 'Noto Color Emoji', sans-serif; font-size: 75px; filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.7)); transform: rotate(10deg); display: block;}
     </style>
 </head>
 <body>
 
     <div class="sidebar">
         <h2>🛠️ Editor Stiker Pro</h2>
-        <p>1. Klik bagian manapun pada stiker (teks/angka) untuk langsung mengedit.<br>2. Klik area stiker untuk memunculkan menu ubah warna/ikon di bawah ini.</p>
+        <p>1. <b>Klik teks</b> untuk mengedit.<br>2. <b>Klik & geser gambar</b> (kerupuk/emoji) untuk memindahkannya.<br>3. <b>Tekan tombol Delete</b> di keyboard untuk menghapus gambar terpilih.</p>
         <hr style="border-color: #374151; width: 100%;">
         
         <div id="editor-controls" style="display: none; flex-direction: column; gap: 20px;">
@@ -102,20 +105,23 @@
                     <div class="theme-btn theme-purple" data-theme="theme-purple"></div>
                 </div>
             </div>
+            
             <div class="tool-group">
-                <label>Ikon / Emoji Kanan</label>
-                <input type="text" id="emoji-input" placeholder="Masukkan 1 Emoji (misal: 🌶️)">
+                <label>Tambahkan Elemen</label>
+                <input type="file" id="image-upload" accept="image/png, image/jpeg" style="display:none;">
+                <button class="action-btn outline-btn" onclick="document.getElementById('image-upload').click()">🖼️ Upload Gambar Sendiri</button>
+                <button class="action-btn outline-btn" id="add-emoji-btn" style="margin-top:0;">😀 Tambah Emoji Baru</button>
             </div>
             
             <hr style="border-color: #374151; width: 100%;">
             
             <button class="action-btn" id="download-btn">⬇️ Download (Unduh) PNG</button>
             <button class="action-btn outline-btn" id="duplicate-btn">📋 Duplikat Stiker</button>
-            <button class="action-btn danger-btn" id="delete-btn">🗑️ Hapus Stiker</button>
+            <button class="action-btn danger-btn" id="delete-btn">🗑️ Hapus Stiker Ini</button>
         </div>
         
         <div id="no-selection-msg" style="color: #FCD34D; font-size: 13px; text-align: center; padding: 20px 0; border: 1px dashed #FCD34D; border-radius: 8px;">
-            Pilih (klik) salah satu stiker di sebelah kanan untuk mengubah tema warna dan ikon.
+            Pilih (klik) salah satu stiker di sebelah kanan untuk mengubah tema warna dan gambar.
         </div>
 
         <div style="margin-top: auto;">
@@ -125,7 +131,7 @@
 
     <div class="canvas-area" id="canvas-area">
         <!-- Default Sticker Template -->
-        <div class="sticker-container active" onclick="selectSticker(this)">
+        <div class="sticker-container active" onclick="selectSticker(this, event)">
             <div class="sticker theme-blue">
                 <div class="bg-pattern"></div>
                 
@@ -134,7 +140,8 @@
                     <h1 class="brand" data-text="SnackKriuk" spellcheck="false" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">SnackKriuk</h1>
                 </div>
                 
-                <div class="illustration-combo">
+                <!-- Draggable Graphics -->
+                <div class="draggable" style="top: 170px; left: 110px;">
                     <svg class="kerupuk-svg" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 15 95 Q 75 125 135 95" fill="none" stroke="#B48E2D" stroke-width="4" stroke-linecap="round"/>
                         <path d="M 70 30 Q 90 10 115 25 Q 135 45 115 70 Q 90 85 70 65 Z" fill="#FDE68A" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
@@ -144,6 +151,9 @@
                         <path d="M 50 50 Q 65 30 90 40 Q 110 50 100 80 Q 80 100 60 90 Q 40 80 50 50 Z" fill="#FFFFFF" stroke="#B48E2D" stroke-width="3" stroke-linejoin="round"/>
                         <path d="M 30 70 Q 35 65 40 75 M 65 55 Q 75 50 80 60 M 70 80 Q 75 75 80 85 M 100 65 Q 110 60 115 75" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
+                </div>
+                
+                <div class="draggable" style="top: 220px; left: 190px;">
                     <span class="ingredient-emoji">🌾</span>
                 </div>
                 
@@ -179,7 +189,10 @@
     <script>
         let activeStickerContainer = null;
 
-        function selectSticker(element) {
+        function selectSticker(element, event) {
+            // Jika yang diklik adalah tombol/icon hapus/drag, abaikan pemilihan stiker global.
+            if(event && event.target.closest('.draggable')) return;
+            
             // Remove active class from all
             document.querySelectorAll('.sticker-container').forEach(el => el.classList.remove('active'));
             
@@ -200,15 +213,12 @@
                 if(btn) btn.classList.add('selected');
             }
             
-            // Sync emoji
-            const emojiEl = sticker.querySelector('.ingredient-emoji');
-            if(emojiEl) {
-                document.getElementById('emoji-input').value = emojiEl.innerText;
-            }
+            // Hilangkan outline draggables saat ganti stiker
+            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
         }
 
         // Initialize selection
-        selectSticker(document.querySelector('.sticker-container'));
+        selectSticker(document.querySelector('.sticker-container'), null);
 
         // Theme switching
         document.querySelectorAll('.theme-btn').forEach(btn => {
@@ -233,12 +243,111 @@
             });
         });
 
-        // Emoji switching
-        document.getElementById('emoji-input').addEventListener('input', (e) => {
+        // Add Emoji
+        document.getElementById('add-emoji-btn').addEventListener('click', () => {
             if(!activeStickerContainer) return;
-            const emojiEl = activeStickerContainer.querySelector('.ingredient-emoji');
-            if(emojiEl) {
-                emojiEl.innerText = e.target.value;
+            let userEmoji = prompt("Masukkan emoji atau teks:", "🌶️");
+            if(!userEmoji) return;
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'draggable selected-drag';
+            wrapper.style.top = '220px';
+            wrapper.style.left = '150px';
+            wrapper.innerHTML = `<span class="ingredient-emoji">${userEmoji}</span>`;
+            
+            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
+            activeStickerContainer.querySelector('.sticker').appendChild(wrapper);
+        });
+
+        // Upload Image
+        document.getElementById('image-upload').addEventListener('change', (e) => {
+            if(!activeStickerContainer) return;
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.style.maxWidth = '150px';
+                    img.style.maxHeight = '150px';
+                    // Kita matikan pointer events di img agar klik selalu kena wrapper
+                    
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'draggable selected-drag';
+                    wrapper.style.top = '170px';
+                    wrapper.style.left = '125px';
+                    wrapper.appendChild(img);
+                    
+                    document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
+                    activeStickerContainer.querySelector('.sticker').appendChild(wrapper);
+                };
+                reader.readAsDataURL(file);
+            }
+            e.target.value = ""; // Reset input
+        });
+
+        // DRAG AND DROP LOGIC
+        let isDragging = false;
+        let currentDraggable = null;
+        let startOffsetX = 0;
+        let startOffsetY = 0;
+
+        document.addEventListener('mousedown', (e) => {
+            const dragEl = e.target.closest('.draggable');
+            if (dragEl) {
+                isDragging = true;
+                currentDraggable = dragEl;
+                
+                // Pastikan stikernya menjadi aktif
+                const stickerContainer = currentDraggable.closest('.sticker-container');
+                if (stickerContainer !== activeStickerContainer) {
+                    selectSticker(stickerContainer, e);
+                }
+
+                // Select this draggable
+                document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
+                currentDraggable.classList.add('selected-drag');
+                
+                const rect = currentDraggable.getBoundingClientRect();
+                startOffsetX = e.clientX - rect.left;
+                startOffsetY = e.clientY - rect.top;
+                
+            } else if (!e.target.closest('.action-btn') && !e.target.closest('.sidebar')) {
+                // Deselect if clicking empty space
+                document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging && currentDraggable) {
+                const sticker = currentDraggable.closest('.sticker');
+                const stickerRect = sticker.getBoundingClientRect();
+                
+                // Hitung posisi kursor relatif terhadap ujung kiri atas sticker
+                let newLeft = e.clientX - stickerRect.left - startOffsetX;
+                let newTop = e.clientY - stickerRect.top - startOffsetY;
+                
+                currentDraggable.style.left = newLeft + 'px';
+                currentDraggable.style.top = newTop + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            currentDraggable = null;
+        });
+
+        // HAPUS ELEMEN DENGAN KEYBOARD
+        document.addEventListener('keydown', (e) => {
+            // Hanya hapus jika menekan Delete atau Backspace, dan bukan sedang mengedit teks biasa
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                const isEditingText = document.activeElement.tagName === 'INPUT' || document.activeElement.getAttribute('contenteditable') === 'true';
+                if (!isEditingText) {
+                    const selectedDrag = document.querySelector('.draggable.selected-drag');
+                    if (selectedDrag) {
+                        selectedDrag.remove();
+                    }
+                }
             }
         });
 
@@ -246,9 +355,8 @@
         document.getElementById('duplicate-btn').addEventListener('click', () => {
             if(!activeStickerContainer) return;
             const clone = activeStickerContainer.cloneNode(true);
-            // Reattach onclick since cloneNode doesn't copy DOM properties fully reliably sometimes, though inline does.
             document.getElementById('canvas-area').appendChild(clone);
-            selectSticker(clone);
+            selectSticker(clone, null);
         });
 
         // Delete Sticker
@@ -272,10 +380,12 @@
             
             // Reset text
             template.querySelector('.product-name').innerText = "NAMA PRODUK";
-            template.querySelector('.ingredient-emoji').innerText = "✨";
+            
+            // Remove existing drag elements to start fresh
+            template.querySelectorAll('.draggable').forEach(el => el.remove());
             
             canvasArea.appendChild(template);
-            selectSticker(template);
+            selectSticker(template, null);
         });
 
         // Download PNG using html2canvas
@@ -287,13 +397,14 @@
             btn.innerText = "⏳ Sedang Memproses...";
             btn.disabled = true;
             
-            // Hide the active outline temporarily
+            // Hide selection outlines before screenshot
             activeStickerContainer.classList.remove('active');
+            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected-drag'));
             
             const stickerElement = activeStickerContainer.querySelector('.sticker');
             
             html2canvas(stickerElement, {
-                scale: 3, // High resolution (approx 300dpi equivalent)
+                scale: 3,
                 backgroundColor: null,
                 useCORS: true
             }).then(canvas => {
