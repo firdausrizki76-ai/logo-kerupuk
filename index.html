@@ -131,6 +131,7 @@
             <hr style="border-color: #374151; width: 100%;">
             
             <button class="action-btn" id="download-btn">⬇️ Download (Unduh) PNG</button>
+            <button class="action-btn" id="download-pdf-btn" style="background: #3B82F6; color: white; box-shadow: 0 4px 0 #1D4ED8;">📄 Download (Unduh) PDF</button>
             <button class="action-btn outline-btn" id="duplicate-btn">📋 Duplikat Stiker</button>
             <button class="action-btn danger-btn" id="delete-btn">🗑️ Hapus Stiker Ini</button>
         </div>
@@ -391,6 +392,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         let activeStickerContainer = null;
 
@@ -680,6 +682,57 @@
             }).catch(err => {
                 console.error(err);
                 alert("Terjadi kesalahan saat memproses gambar.");
+                activeStickerContainer.classList.add('active');
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
+        });
+
+        // DOWNLOAD PDF
+        document.getElementById('download-pdf-btn').addEventListener('click', () => {
+            if(!activeStickerContainer) return;
+            
+            const btn = document.getElementById('download-pdf-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "⏳ Sedang Memproses PDF...";
+            btn.disabled = true;
+            
+            activeStickerContainer.classList.remove('active');
+            setSelectedDraggable(null);
+            
+            if(document.activeElement && document.activeElement.blur) {
+                document.activeElement.blur();
+            }
+
+            const stickerElement = activeStickerContainer.querySelector('.sticker');
+            
+            html2canvas(stickerElement, {
+                scale: 3, // High quality scale
+                backgroundColor: null,
+                useCORS: true
+            }).then(canvas => {
+                activeStickerContainer.classList.add('active');
+                btn.innerText = originalText;
+                btn.disabled = false;
+                
+                const { jsPDF } = window.jspdf;
+                // Buat PDF dengan ukuran tepat sama dengan stiker (400x500 px)
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'px',
+                    format: [400, 500]
+                });
+                
+                let productName = "Stiker";
+                const productNameEl = stickerElement.querySelector('.product-name');
+                if(productNameEl) productName = productNameEl.innerText.trim().replace(/[^a-zA-Z0-9]/g, '_');
+                
+                // Tambahkan gambar canvas resolusi tinggi (3x) ke dalam dokumen PDF yg berukuran 1x
+                pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 400, 500);
+                pdf.save(`Stiker_${productName}.pdf`);
+            }).catch(err => {
+                console.error(err);
+                alert("Terjadi kesalahan saat memproses PDF.");
                 activeStickerContainer.classList.add('active');
                 btn.innerText = originalText;
                 btn.disabled = false;
